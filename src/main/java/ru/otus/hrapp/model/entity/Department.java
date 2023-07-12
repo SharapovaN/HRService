@@ -15,7 +15,7 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     @Enumerated(EnumType.STRING)
     private DepartmentName name;
 }

@@ -1,8 +1,10 @@
 package ru.otus.hrapp.util;
 
-import ru.otus.hrapp.model.dto.ContactDto;
-import ru.otus.hrapp.model.entity.Contact;
-import ru.otus.hrapp.model.entity.Department;
+import org.springframework.util.CollectionUtils;
+import ru.otus.hrapp.model.dto.*;
+import ru.otus.hrapp.model.entity.*;
+
+import java.util.List;
 
 public class ModelConverter {
 
@@ -17,19 +19,6 @@ public class ModelConverter {
         contractDto.setLastRevisionDate(contract.getLastRevisionDate());
 
         return contractDto;
-    }
-
-    public static ProjectDto toProjectDto(Project project) {
-        ProjectDto projectDto = new ProjectDto();
-
-        projectDto.setId(project.getId());
-        projectDto.setDescription(project.getDescription());
-        projectDto.setProjectType(project.getProjectType());
-        projectDto.setStatus(project.getStatus());
-        projectDto.setStartDate(project.getStartDate());
-        projectDto.setEndDate(project.getEndDate());
-
-        return projectDto;
     }
 
     public static JobDto toJobDto(Job job) {
@@ -66,7 +55,6 @@ public class ModelConverter {
 
         locationDto.setId(location.getId());
         locationDto.setCity(location.getCity());
-        locationDto.setCountryName(toCountryDto(location.getCountry()).getName());
         locationDto.setPostalCode(location.getPostalCode());
         locationDto.setStreetAddress(location.getStreetAddress());
         locationDto.setStateProvince(location.getStateProvince());
@@ -101,7 +89,7 @@ public class ModelConverter {
         }
         if (!CollectionUtils.isEmpty(contactList)) {
             List<ContactDto> contactDtoList = contactList.stream().map((ModelConverter::toContactDto))
-                    .collect(Collectors.toList());
+                    .toList();
             employeeDto.setContactList(contactDtoList);
         }
 

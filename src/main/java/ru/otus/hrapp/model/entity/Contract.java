@@ -16,7 +16,7 @@ public class Contract {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
     private int salary;
     private LocalDate startDate;
     private LocalDate endDate;

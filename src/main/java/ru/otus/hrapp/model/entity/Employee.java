@@ -17,7 +17,7 @@ public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private long id;
 
     private String name;
     private String surname;
@@ -49,4 +49,15 @@ public class Employee {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "contract_id", referencedColumnName = "id")
     private Contract contract;
+
+    public Employee(String name, String surname, String middleName, String email, LocalDate birthday,
+                    EmployeeStatus status, LocalDate hireDate) {
+        this.name = name;
+        this.surname = surname;
+        this.middleName = middleName;
+        this.email = email;
+        this.birthday = birthday;
+        this.status = status;
+        this.hireDate = hireDate;
+    }
 }

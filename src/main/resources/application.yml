@@ -4,3 +4,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/HrService
     username: postgres
     password: 388082
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql

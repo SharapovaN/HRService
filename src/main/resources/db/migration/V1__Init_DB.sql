@@ -106,3 +106,6 @@ CREATE TABLE IF NOT EXISTS employee_contact
     employee_id  INT           NOT NULL REFERENCES employee (id),
     PRIMARY KEY (id)
 );
+
+
+

@@ -6,7 +6,7 @@ import ru.otus.hrapp.model.entity.Contact;
 
 import java.util.List;
 
-public interface ContactRepository extends JpaRepository<Contact, Integer> {
+public interface ContactRepository extends JpaRepository<Contact, Long> {
 
-    List<Contact> findEmployeeContactByEmployeeId(int id);
+    List<Contact> findByEmployeeId(long id);
 }

@@ -2,21 +2,22 @@ package ru.otus.hrapp.controller;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.hrapp.model.dto.ContactDto;
-import ru.otus.hrapp.service.ContactService;
+import ru.otus.hrapp.service.ContactServiceImpl;
 
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 public class ContactController {
 
-    private final ContactService contactService;
+    private final ContactServiceImpl contactService;
 
     @GetMapping("/contact/{employeeId}")
     public List<ContactDto> getContactByEmployeeId(@PathVariable int employeeId) {
-        return contactService.getEmployeeContactByEmployeeId(employeeId);
+        return contactService.getEmployeeContactDtoList(employeeId);
     }
 
     @PostMapping("/contact")
@@ -30,7 +31,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/contact/{id}")
-    public ContactDto deleteContact(@PathVariable int id) {
-        return contactService.deleteContact(id);
+    public void deleteContact(@PathVariable long id) {
+        contactService.deleteContact(id);
     }
 }

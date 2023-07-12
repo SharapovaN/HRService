@@ -16,7 +16,7 @@ import ru.otus.hrapp.model.enumeration.EmployeeContactType;
 public class ContactDto {
 
     @Positive(message = "Contact ID must be positive")
-    private int id;
+    private long id;
 
     @NotNull(message = "Contact type cannot be null.")
     private EmployeeContactType type;
