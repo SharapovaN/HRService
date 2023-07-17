@@ -8,27 +8,27 @@ import lombok.NoArgsConstructor;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Embeddable
-public class EmployeeProjectID implements Serializable {
-
-    private Long projectId;
+public class EmployeeActivityID implements Serializable {
 
     private Long employeeId;
+
+    private Long activityId;
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof EmployeeProjectID)) return false;
-        EmployeeProjectID that = (EmployeeProjectID) o;
-        return projectId == that.projectId &&
-                employeeId == that.employeeId;
+        if (!(o instanceof EmployeeActivityID)) return false;
+        EmployeeActivityID that = (EmployeeActivityID) o;
+        return employeeId == that.employeeId &&
+                activityId == that.activityId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(projectId, employeeId);
+        return Objects.hash(employeeId, activityId);
     }
 }

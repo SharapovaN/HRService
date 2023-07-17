@@ -2,23 +2,24 @@ package ru.otus.hrapp.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hrapp.model.dto.EmployeeDto;
 import ru.otus.hrapp.model.dto.SaveEmployeeDto;
-import ru.otus.hrapp.model.entity.*;
+import ru.otus.hrapp.model.entity.Contract;
+import ru.otus.hrapp.model.entity.Employee;
 import ru.otus.hrapp.model.enumeration.EmployeeStatus;
-import ru.otus.hrapp.repository.*;
+import ru.otus.hrapp.repository.EmployeeRepository;
 import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -34,7 +35,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final JobService jobService;
     private final UpdateMapper updateMapper;
     //private final RoleRepository roleRepository;
-   // private final UserRepository userRepository;
+    // private final UserRepository userRepository;
     //private final PasswordEncoder passwordEncoder;
 
     @Override
@@ -45,17 +46,19 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto getEmployee(long id, boolean isExtended) {
+    @Transactional(readOnly = true)
+    public EmployeeDto getEmployee(long id) {
         log.debug("GetEmployee method was called with id: " + id);
 
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee is found for the id: " + id));
-        if (isExtended) {
-            List<Contact> contactList = contactService.getEmployeeContactList(id);
+        /*if (isExtended) {
+
             return ModelConverter.toExtendedEmployeeDto(employee, contactList);
         } else {
             return ModelConverter.toEmployeeDto(employee);
-        }
+        }*/
+        return ModelConverter.toEmployeeDto(employee);
     }
 
     @Override

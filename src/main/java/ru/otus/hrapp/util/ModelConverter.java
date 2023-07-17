@@ -71,6 +71,7 @@ public class ModelConverter {
         employeeDto.setMiddleName(employee.getMiddleName());
         employeeDto.setEmail(employee.getEmail());
         employeeDto.setStatus(employee.getStatus());
+        employeeDto.setContactList(employee.getContacts().stream().map(ModelConverter::toContactDto).toList());
 
         return employeeDto;
     }
@@ -96,8 +97,22 @@ public class ModelConverter {
         return employeeDto;
     }
 
-    public static EmployeeProjectDto toEmployeeProjectDto(EmployeeProject employeeProject) {
-        EmployeeProjectDto employeeProjectDto = new EmployeeProjectDto();
+    public static ProjectDto toProjectDto(Project project) {
+        ProjectDto projectDto = new ProjectDto();
+
+        projectDto.setId(project.getId());
+        projectDto.setProjectType(project.getProjectType());
+        projectDto.setDescription(project.getDescription());
+        projectDto.setStatus(project.getStatus());
+        projectDto.setStartDate(project.getStartDate());
+        projectDto.setEndDate(project.getEndDate());
+        projectDto.setOwnerId(project.getOwnerId());
+
+        return projectDto;
+    }
+
+    public static CreateEmployeeProjectDto toEmployeeProjectDto(EmployeeProject employeeProject) {
+        CreateEmployeeProjectDto employeeProjectDto = new CreateEmployeeProjectDto();
 
         employeeProjectDto.setEmployeeId(employeeProject.getEmployeeProjectID().getEmployeeId());
         employeeProjectDto.setProjectId(employeeProject.getEmployeeProjectID().getProjectId());
@@ -106,5 +121,28 @@ public class ModelConverter {
         employeeProjectDto.setEmployeeProjectRole(employeeProject.getEmployeeProjectRole());
 
         return employeeProjectDto;
+    }
+
+    public static ActivityDto toActivityDto(Activity activity) {
+        ActivityDto activityDto = new ActivityDto();
+
+        activityDto.setId(activity.getId());
+        activityDto.setName(activity.getName());
+        activityDto.setDescription(activity.getDescription());
+        activityDto.setStatus(activity.getStatus());
+        activityDto.setStartDate(activity.getStartDate());
+        activityDto.setEndDate(activity.getEndDate());
+
+        return activityDto;
+    }
+
+    public static CreateEmployeeActivityDto toCreateEmployeeActivityDto(EmployeeActivity employeeActivity) {
+        CreateEmployeeActivityDto createEmployeeActivityDto = new CreateEmployeeActivityDto();
+
+        createEmployeeActivityDto.setActivityId(employeeActivity.getEmployeeActivityID().getActivityId());
+        createEmployeeActivityDto.setEmployeeId(employeeActivity.getEmployeeActivityID().getEmployeeId());
+        createEmployeeActivityDto.setActivityRole(employeeActivity.getActivityRole());
+
+        return createEmployeeActivityDto;
     }
 }

@@ -4,19 +4,18 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.hrapp.model.enumeration.DepartmentName;
+import ru.otus.hrapp.model.enumeration.EmployeeActivityRole;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "department")
-public class Department {
+@Table(name = "employee_activity")
+public class EmployeeActivity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private EmployeeActivityID employeeActivityID;
 
     @Enumerated(EnumType.STRING)
-    private DepartmentName name;
+    private EmployeeActivityRole activityRole;
 }

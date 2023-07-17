@@ -1,7 +1,6 @@
 package ru.otus.hrapp.model.dto;
 
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
@@ -12,11 +11,9 @@ import ru.otus.hrapp.model.enumeration.EmployeeContactType;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContactDto {
 
-    @Positive(message = "Contact ID must be positive")
-    private long id;
+    private Long id;
 
     @NotNull(message = "Contact type cannot be null.")
     private EmployeeContactType type;

@@ -34,12 +34,13 @@ public class ContactServiceImpl implements ContactService {
     public ContactDto createEmployeeContact(ContactDto contactDto) {
         log.debug("CreateEmployeeContact method was called with contactDto: " + contactDto);
 
-        Contact contact = new Contact();
+       /* Contact contact = new Contact();
         contact.setType(contactDto.getType());
         contact.setAccountName(contactDto.getAccountName());
         contact.setDescription(contactDto.getDescription());
         contact.setEmployeeId(contactDto.getEmployeeId());
-        return ModelConverter.toContactDto(contactRepository.save(contact));
+        return ModelConverter.toContactDto(contactRepository.save(contact));*/
+        return null;
     }
 
     @Override

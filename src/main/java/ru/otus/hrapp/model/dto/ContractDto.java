@@ -1,6 +1,5 @@
 package ru.otus.hrapp.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.Past;
@@ -14,14 +13,12 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ContractDto {
 
-    @Positive(message = "Contract ID must be positive")
-    private long id;
+    private Long id;
 
     @Positive(message = "Salary must be positive")
-    private int salary;
+    private Integer salary;
 
     @FutureOrPresent(message = "The start date must be in the future or now.")
     private LocalDate startDate;

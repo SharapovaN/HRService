@@ -13,11 +13,6 @@ public class ContractController {
 
     private final ContractServiceImpl contractServiceImpl;
 
-    @GetMapping("/contract")
-    public ContractDto getContractById(@RequestParam int contractId) {
-        return contractServiceImpl.getContractById(contractId);
-    }
-
     @PutMapping("/contract")
     public ContractDto updateContract(@RequestBody @Valid ContractDto contractDto) {
         return contractServiceImpl.updateContract(contractDto);

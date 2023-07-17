@@ -15,10 +15,15 @@ public class Contact {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    private Long id;
+
     @Enumerated(EnumType.STRING)
     private EmployeeContactType type;
+
     private String accountName;
     private String description;
-    private int employeeId;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "employee_id", referencedColumnName = "id")
+    private Employee employee;
 }

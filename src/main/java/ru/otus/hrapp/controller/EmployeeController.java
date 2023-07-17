@@ -23,9 +23,8 @@ public class EmployeeController {
     }
 
     @GetMapping("/employee/{id}")
-    public EmployeeDto getEmployee(@PathVariable("id") long id,
-                                   @RequestParam(required = false, defaultValue = "false") boolean isExtended) {
-        return employeeService.getEmployee(id, isExtended);
+    public EmployeeDto getEmployee(@PathVariable("id") long id) {
+        return employeeService.getEmployee(id);
     }
 
     @GetMapping("/employee/search")

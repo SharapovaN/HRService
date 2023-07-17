@@ -1,3 +1,13 @@
+DROP TABLE IF EXISTS department CASCADE;
+DROP TABLE IF EXISTS location CASCADE;
+DROP TABLE IF EXISTS job CASCADE;
+DROP TABLE IF EXISTS contract CASCADE;
+DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS employee_project CASCADE;
+DROP TABLE IF EXISTS employee_contact CASCADE;
+DROP TABLE IF EXISTS activity CASCADE;
+DROP TABLE IF EXISTS employee_activity CASCADE;
+
 -- -----------------------------------------------------
 -- Table department
 -- -----------------------------------------------------
@@ -103,9 +113,32 @@ CREATE TABLE IF NOT EXISTS employee_contact
     type         VARCHAR(50)   NOT NULL,
     account_name VARCHAR(50)   NOT NULL,
     description  VARCHAR(2048) NULL,
-    employee_id  INT           NOT NULL REFERENCES employee (id),
+    employee_id  BIGINT        NOT NULL REFERENCES employee (id),
     PRIMARY KEY (id)
 );
 
+-- -----------------------------------------------------
+-- Table activity
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS activity
+(
+    id          BIGSERIAL,
+    name        VARCHAR(50)   NOT NULL,
+    description VARCHAR(2048) NULL,
+    status      VARCHAR(50)   NOT NULL,
+    start_date  DATE          NOT NULL,
+    end_date    DATE          NULL,
+    PRIMARY KEY (id)
+);
+
+-- -----------------------------------------------------
+-- Table employee_activity
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS employee_activity
+(
+    employee_id   BIGINT      NOT NULL REFERENCES employee (id),
+    activity_id   BIGINT      NOT NULL REFERENCES activity (id),
+    activity_role VARCHAR(50) NOT NULL
+);
 
 

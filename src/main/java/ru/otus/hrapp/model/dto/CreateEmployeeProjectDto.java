@@ -1,6 +1,5 @@
 package ru.otus.hrapp.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
@@ -15,14 +14,13 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class EmployeeProjectDto {
+public class CreateEmployeeProjectDto {
 
     @Positive(message = "Project ID must be positive")
-    private int projectId;
+    private Long projectId;
 
     @Positive(message = "Employee ID must be positive")
-    private int employeeId;
+    private Long employeeId;
 
     @NotNull(message = "Role cannot be null")
     private EmployeeProjectRole employeeProjectRole;

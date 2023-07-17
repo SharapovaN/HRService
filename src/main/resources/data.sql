@@ -14,20 +14,23 @@ VALUES ('java developer', 'senior'),
        ('hr recruiter', 'middle');
 
 INSERT INTO contract (salary, start_date, end_date, last_revision_date, description)
-VALUES (10000, '2015-05-05', '2025-05-05', '2023-01-01', 'contract');
+VALUES (10000, '2015-05-05', '2025-05-05', '2023-01-01', 'contract'),
+       (10000, '2015-05-05', '2025-05-05', '2023-01-01', 'contract');
 
 INSERT INTO employee ("name", surname, middle_name, email, birthday, status, hire_date, manager_id, location_id,
                       department_id, job_id, contract_id)
-VALUES ('Ivan', 'Ivanov', 'Ivanovich', 'ivan.ivanov@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', 1, 1, 1, 1, 1);
+VALUES ('Ivan', 'Ivanov', 'Ivanovich', 'ivan.ivanov@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', 2, 1, 1, 1, 1),
+       ('Manager', 'Manager', 'Manager', 'manager.manager@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', null, 1, 1, 1, 1);
 
 INSERT INTO project (project_type, area, status, start_date, end_date, owner_id)
-VALUES ('VERY EXPENSIVE PROJECT', 'FINTECH', 'ACTIVE', '2022-01-01', '2025-01-01', 1);
+VALUES ('VERY EXPENSIVE PROJECT', 'FINTECH', 'ACTIVE', '2022-01-01', '2025-01-01', 2);
 
 INSERT INTO employee_project (project_id, employee_id, employee_project_role, employee_start_date, employee_end_date)
-VALUES (1, 1, 'OWNER', '2022-01-01', '2025-01-01');
+VALUES (1, 2, 'OWNER', '2022-01-01', '2025-01-01');
 
 INSERT INTO employee_contact ("type", account_name, description, employee_id)
-VALUES('social network', 'ivanovIvan', 'telegram', 1);
+VALUES ('TELEGRAM', 'ivanovIvan', 'telegram', 1),
+       ('TELEGRAM', 'managerManager', 'telegram', 2);
 
 
 

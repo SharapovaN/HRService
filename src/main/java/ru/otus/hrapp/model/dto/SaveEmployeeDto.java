@@ -1,6 +1,5 @@
 package ru.otus.hrapp.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,9 +11,8 @@ import java.time.LocalDate;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class SaveEmployeeDto {
-    private long id;
+    private Long id;
 
     @NotNull(message = "Name cannot be null")
     private String name;
@@ -40,19 +38,19 @@ public class SaveEmployeeDto {
     private LocalDate hireDate;
 
     @Positive(message = "Manager ID must be positive")
-    private long managerId;
+    private Long managerId;
 
     @Positive(message = "Location ID must be positive")
-    private long locationId;
+    private Long locationId;
 
     @Positive(message = "Department ID must be positive")
-    private long departmentId;
+    private Long departmentId;
 
     @Positive(message = "Job ID must be positive")
-    private long jobId;
+    private Long jobId;
 
     @Positive(message = "Salary must be positive.")
-    private int salary;
+    private Integer salary;
 
     @FutureOrPresent(message = "The contract start date must be in the future or now.")
     private LocalDate contractStartDate;
