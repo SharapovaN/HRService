@@ -12,7 +12,9 @@ public interface EmployeeService {
 
     List<EmployeeDto> getAllEmployees();
 
-    EmployeeDto getEmployee(long id);
+    EmployeeDto getEmployeeDtoById(long id);
+
+    Employee getEmployeeById(long id);
 
     List<EmployeeDto> getEmployeesByLocationId(long locationId, boolean isActiveOnly);
 

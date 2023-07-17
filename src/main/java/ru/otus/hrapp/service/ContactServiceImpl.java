@@ -21,26 +21,29 @@ import java.util.Optional;
 public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
+    private final EmployeeService employeeService;
     private final UpdateMapper updateMapper;
 
     @Override
     public List<ContactDto> getEmployeeContactDtoList(long employeeId) {
         log.debug("GetEmployeeContactByEmployeeId method was called with employeeId: " + employeeId);
 
-        return getEmployeeContactList(employeeId).stream().map(ModelConverter::toContactDto).toList();
+        return contactRepository.findByEmployeeId(employeeId).stream()
+                .map(ModelConverter::toContactDto)
+                .toList();
     }
 
     @Override
     public ContactDto createEmployeeContact(ContactDto contactDto) {
         log.debug("CreateEmployeeContact method was called with contactDto: " + contactDto);
 
-       /* Contact contact = new Contact();
+        Contact contact = new Contact();
         contact.setType(contactDto.getType());
         contact.setAccountName(contactDto.getAccountName());
         contact.setDescription(contactDto.getDescription());
-        contact.setEmployeeId(contactDto.getEmployeeId());
-        return ModelConverter.toContactDto(contactRepository.save(contact));*/
-        return null;
+        contact.setEmployee(employeeService.getEmployeeById(contactDto.getEmployeeId()));
+
+        return ModelConverter.toContactDto(contactRepository.save(contact));
     }
 
     @Override
@@ -56,11 +59,6 @@ public class ContactServiceImpl implements ContactService {
         } else {
             throw new ResourceNotFoundException("No contact is found for the id: " + updateContactDto.getId());
         }
-    }
-
-    @Override
-    public List<Contact> getEmployeeContactList(long employeeId) {
-        return contactRepository.findByEmployeeId(employeeId);
     }
 
     @Override

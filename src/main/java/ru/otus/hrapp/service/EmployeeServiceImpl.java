@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private final ContactService contactService;
     private final ContractService contractService;
     private final LocationService locationService;
     private final DepartmentService departmentService;
@@ -47,8 +46,8 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional(readOnly = true)
-    public EmployeeDto getEmployee(long id) {
-        log.debug("GetEmployee method was called with id: " + id);
+    public EmployeeDto getEmployeeDtoById(long id) {
+        log.debug("getEmployeeDtoById method was called with id: " + id);
 
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("No employee is found for the id: " + id));
@@ -59,6 +58,14 @@ public class EmployeeServiceImpl implements EmployeeService {
             return ModelConverter.toEmployeeDto(employee);
         }*/
         return ModelConverter.toEmployeeDto(employee);
+    }
+
+    @Override
+    public Employee getEmployeeById(long id) {
+        log.debug("getEmployeeById method was called with id: " + id);
+
+        return employeeRepository.findById(id).orElseThrow(() ->
+                new ResourceNotFoundException("No employee is found for the id: " + id));
     }
 
     @Override

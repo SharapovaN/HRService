@@ -21,15 +21,6 @@ public class ContractServiceImpl implements ContractService {
     private final UpdateMapper updateMapper;
 
     @Override
-    public ContractDto getContractById(long contractId) {
-        log.debug("GetContractById method was called with contractId: " + contractId);
-
-        Contract contract = contractRepository.findById(contractId)
-                .orElseThrow(() -> new ResourceNotFoundException("No contract is found for the id: " + contractId));
-        return ModelConverter.toContractDto(contract);
-    }
-
-    @Override
     public ContractDto updateContract(ContractDto contractDto) {
         log.debug("UpdateContract method was called with ID: " + contractDto.getId());
 
