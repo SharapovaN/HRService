@@ -1,5 +1,8 @@
 package ru.otus.hrapp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -10,6 +13,7 @@ import ru.otus.hrapp.service.EmployeeService;
 
 import java.util.List;
 
+@Tag(name = "Employee controller")
 @CrossOrigin
 @AllArgsConstructor
 @RestController
@@ -17,38 +21,35 @@ public class EmployeeController {
 
     private final EmployeeService employeeService;
 
+    @Operation(summary = "Get all employees")
     @GetMapping("/employee")
-    public List<EmployeeDto> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public List<EmployeeDto> getAllEmployees(@RequestParam(defaultValue = "true")
+                                             @Parameter(name = "isActiveOnly",
+                                                     description = "Request parameter to search for ACTIVE employees only (default) or for all employees")
+                                             boolean isActiveOnly) {
+        return employeeService.getAllEmployees(isActiveOnly);
     }
 
+    @Operation(summary = "Get employee by ID")
     @GetMapping("/employee/{id}")
-    public EmployeeDto getEmployee(@PathVariable("id") long id) {
+    public EmployeeDto getEmployee(@PathVariable("id")
+                                   @Parameter(name = "id", description = " Employee unique identifier")
+                                   long id) {
         return employeeService.getEmployeeDtoById(id);
     }
 
-    @GetMapping("/employee/search")
-    public List<EmployeeDto> getEmployeesBySearchPhrase(@RequestParam String searchPhrase,
-                                                        @RequestParam(required = true, defaultValue = "true") boolean isActiveOnly) {
-        return employeeService.getEmployeeBySearchPhrase(searchPhrase, isActiveOnly);
-    }
-
-    @GetMapping("/employee/location")
-    public List<EmployeeDto> getEmployeesByLocationId(@RequestParam int locationId,
-                                                      @RequestParam(required = true, defaultValue = "true") boolean isActiveOnly) {
-        return employeeService.getEmployeesByLocationId(locationId, isActiveOnly);
-    }
-
+    @Operation(summary = "Create employee")
     @PostMapping("/employee")
     @ResponseStatus(HttpStatus.CREATED)
-    public EmployeeDto createEmployee(@RequestBody @Valid SaveEmployeeDto createEmployeeDto) {
-        return employeeService.createEmployee(createEmployeeDto);
+    public EmployeeDto createEmployee(@Parameter(name = "saveEmployeeDto", description = "DTO for creating employee")
+                                      @RequestBody @Valid SaveEmployeeDto saveEmployeeDto) {
+        return employeeService.createEmployee(saveEmployeeDto);
     }
 
-
+    @Operation(summary = "Update employee")
     @PutMapping("/employee")
-    @ResponseStatus(HttpStatus.OK)
-    public EmployeeDto updateEmployee(@RequestBody @Valid SaveEmployeeDto updateEmployeeDto) {
-        return employeeService.updateEmployee(updateEmployeeDto);
+    public EmployeeDto updateEmployee(@Parameter(name = "saveEmployeeDto", description = "DTO for updating employee")
+                                      @RequestBody @Valid SaveEmployeeDto saveEmployeeDto) {
+        return employeeService.updateEmployee(saveEmployeeDto);
     }
 }

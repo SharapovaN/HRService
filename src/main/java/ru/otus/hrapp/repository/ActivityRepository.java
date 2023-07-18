@@ -13,14 +13,20 @@ import java.util.List;
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, Long> {
 
-    @Query(value = "SELECT * FROM activity act JOIN employee_activity ea ON act.id = ea.activity_id WHERE ea.employee_id = :employeeId",
-            nativeQuery = true)
+    @Query(value = """
+            SELECT * FROM activity act
+            JOIN employee_activity ea ON act.id = ea.activity_id 
+            WHERE ea.employee_id = :employeeId
+            """, nativeQuery = true)
     List<Activity> findActivitiesByEmployeeId(@Param("employeeId") long employeeId);
 
     @Modifying
     @Transactional
-    @Query(value = "UPDATE activity SET status = :status WHERE id = :id",
-            nativeQuery = true)
+    @Query(value = """
+            UPDATE activity
+            SET status = :status 
+            WHERE id = :id
+            """, nativeQuery = true)
     void updateActivityStatus(@Param("status") String status, @Param("id") long id);
 
 }

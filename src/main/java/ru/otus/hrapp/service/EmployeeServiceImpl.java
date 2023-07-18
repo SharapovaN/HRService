@@ -17,7 +17,6 @@ import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
 import java.time.LocalDate;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -38,10 +37,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     //private final PasswordEncoder passwordEncoder;
 
     @Override
-    public List<EmployeeDto> getAllEmployees() {
-        log.debug("GetAllEmployees method was called");
+    public List<EmployeeDto> getAllEmployees(boolean isActiveOnly) {
+        log.debug("GetAllEmployees method was called with isActiveOnly: {}", isActiveOnly);
 
-        return employeeRepository.findAll().stream().map(ModelConverter::toEmployeeDto).toList();
+        if (isActiveOnly) {
+            return employeeRepository.findEmployeesByStatusActive().stream()
+                    .map(ModelConverter::toEmployeeDto).collect(Collectors.toList());
+        } else {
+            return employeeRepository.findAll().stream()
+                    .map(ModelConverter::toEmployeeDto).collect(Collectors.toList());
+        }
     }
 
     @Override
@@ -68,38 +73,6 @@ public class EmployeeServiceImpl implements EmployeeService {
                 new ResourceNotFoundException("No employee is found for the id: " + id));
     }
 
-    @Override
-    public List<EmployeeDto> getEmployeesByLocationId(long locationId, boolean isActiveOnly) {
-        log.debug("GetEmployeesByLocationId method was called with locationId: " + locationId);
-
-        if (locationService.existsById(locationId)) {
-            if (isActiveOnly) {
-                return employeeRepository.findActiveEmployeeByLocationId(locationId).stream()
-                        .map(ModelConverter::toEmployeeDto).collect(Collectors.toList());
-            } else {
-                return employeeRepository.findByLocationId(locationId).stream()
-                        .map(ModelConverter::toEmployeeDto).collect(Collectors.toList());
-            }
-        } else {
-            throw new ResourceNotFoundException("No location is found for the id: " + locationId);
-        }
-    }
-
-    @Override
-    public List<EmployeeDto> getEmployeeBySearchPhrase(String searchPhrase, boolean isActiveOnly) {
-        log.debug("GetEmployeeBySearchPhrase method was called with searchPhrase: " + searchPhrase);
-
-        if (isActiveOnly) {
-            return employeeRepository.findActiveEmployeeBySearchPhrase(searchPhrase).stream()
-                    .map(ModelConverter::toEmployeeDto)
-                    .collect(Collectors.toList());
-        } else {
-            return employeeRepository.findAllEmployeeBySearchPhrase(searchPhrase).stream()
-                    .map(ModelConverter::toEmployeeDto)
-                    .collect(Collectors.toList());
-        }
-    }
-
     public EmployeeDto createEmployee(SaveEmployeeDto saveEmployeeDto) {
         log.debug("CreateEmployee method was called with createEmployeeDto: " + saveEmployeeDto);
 
@@ -107,7 +80,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (LocalDate.now().isBefore(saveEmployeeDto.getHireDate()) && !saveEmployeeDto.getStatus().equals(EmployeeStatus.PENDING)) {
             errorMsgBuilder.append("Employee status must be PENDING.");
         }
-        if (employeeRepository.findByEmail(saveEmployeeDto.getEmail()) != null) {
+        if (employeeRepository.findByEmail(saveEmployeeDto.getEmail()).isPresent()) {
             errorMsgBuilder.append("Employee with this email already exists: ").append(saveEmployeeDto.getEmail());
         }
 
@@ -163,8 +136,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         userRepository.save(user);*/
 
-        EmployeeDto employeeDto = ModelConverter.toExtendedEmployeeDto(savedEmployee, null);
-        return employeeDto;
+        return ModelConverter.toEmployeeDto(savedEmployee);
     }
 
     @Override
@@ -182,45 +154,14 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void updateEmployeeStatus(Employee employee, EmployeeStatus status) {
-        log.debug("UpdateEmployeeStatus method was called for employee id: " + employee.getId());
+    public void updateEmployeeStatus(long employeeId, EmployeeStatus status) {
+        log.debug("UpdateEmployeeStatus method was called for employee id: " + employeeId);
 
-        employeeRepository.updateEmployeeStatus(status.name(), employee.getId());
-    }
-
-    @Override
-    public List<Employee> getEmployeeByDepartmentAndLocation(long departmentId, long locationId) {
-        log.debug("GetEmployeeByDepartmentAndLocation method was called with departmentId: {} and locationId : {}",
-                departmentId, locationId);
-
-        return employeeRepository.findEmployeeByDepartmentAndLocation(departmentId, locationId);
-    }
-
-    @Override
-    public List<Employee> getPendingEmployeeHireDateBefore(LocalDate date) {
-        log.debug("GetPendingEmployeeHireDateBefore method was called with date: {}", date);
-
-        return employeeRepository.findPendingEmployeeHireDateBefore(date);
-    }
-
-    @Override
-    public List<Employee> getPendingEmployeeHireDateIs(LocalDate date, LocalDate checkDate) {
-        log.debug("GetPendingEmployeeHireDateIs method was called with dates: " + date + " " + checkDate);
-
-        return employeeRepository.findPendingEmployeeHireDateIs(Arrays.asList(date, checkDate));
-    }
-
-    public List<EmployeeDto> getEmployeesByProjectId(long projectId, boolean isActiveOnly) {
-        log.debug("GetEmployeesByProjectId method was called with projectId: " + projectId);
-
-        if (isActiveOnly) {
-            return employeeRepository.findActiveEmployeesByProjectId(projectId).stream()
-                    .map(ModelConverter::toEmployeeDto)
-                    .collect(Collectors.toList());
+        Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+        if (employeeOptional.isPresent()) {
+            employeeRepository.updateEmployeeStatus(status.name(), employeeId);
         } else {
-            return employeeRepository.findByProjectId(projectId).stream()
-                    .map(ModelConverter::toEmployeeDto)
-                    .collect(Collectors.toList());
+            throw new ResourceNotFoundException("No employee is found for the id: " + employeeId);
         }
     }
 
@@ -229,8 +170,4 @@ public class EmployeeServiceImpl implements EmployeeService {
         stringBuilder.append(String.format(template, entityName, id));
     }
 
-    @Override
-    public boolean existsById(long employeeId) {
-        return employeeRepository.existsById(employeeId);
-    }
 }

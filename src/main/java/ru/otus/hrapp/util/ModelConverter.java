@@ -71,7 +71,9 @@ public class ModelConverter {
         employeeDto.setMiddleName(employee.getMiddleName());
         employeeDto.setEmail(employee.getEmail());
         employeeDto.setStatus(employee.getStatus());
-        employeeDto.setContactList(employee.getContacts().stream().map(ModelConverter::toContactDto).toList());
+        if (employee.getContacts() != null) {
+            employeeDto.setContactList(employee.getContacts().stream().map(ModelConverter::toContactDto).toList());
+        }
 
         return employeeDto;
     }
