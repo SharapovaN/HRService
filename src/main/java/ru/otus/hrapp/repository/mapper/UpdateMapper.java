@@ -11,7 +11,7 @@ import ru.otus.hrapp.model.entity.*;
 public interface UpdateMapper {
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    void updateEmployee(SaveEmployeeDto updateEmployeeDto, @MappingTarget Employee employee);
+    void updateEmployee(UpdateEmployeeDto updateEmployeeDto, @MappingTarget Employee employee);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateContact(ContactDto updateContactDto, @MappingTarget Contact contact);

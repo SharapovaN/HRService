@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.otus.hrapp.model.dto.ActivityDto;
 import ru.otus.hrapp.model.dto.CreateEmployeeActivityDto;
+import ru.otus.hrapp.model.dto.SaveActivityDto;
 import ru.otus.hrapp.model.entity.Activity;
 import ru.otus.hrapp.model.entity.EmployeeActivity;
 import ru.otus.hrapp.model.entity.EmployeeActivityID;
@@ -28,17 +29,12 @@ public class ActivityServiceImpl implements ActivityService {
     private final UpdateMapper updateMapper;
 
     @Override
-    public ActivityDto createActivity(ActivityDto activityDto) {
-        log.info("createActivity method was called with activityDto : {}", activityDto);
+    public List<ActivityDto> getAllActivities() {
+        log.info("getAllActivities method was called");
 
-        var activity = new Activity();
-        activity.setName(activityDto.getName());
-        activity.setDescription(activityDto.getDescription());
-        activity.setStatus(ActivityStatus.PLANNED);
-        activity.setStartDate(activityDto.getStartDate());
-        activity.setEndDate(activityDto.getEndDate());
-
-        return ModelConverter.toActivityDto(activityRepository.save(activity));
+        return activityRepository.findAll().stream()
+                .map(ModelConverter::toActivityDto)
+                .toList();
     }
 
     @Override
@@ -59,12 +55,17 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<ActivityDto> getAllActivities() {
-        log.info("getAllActivities method was called");
+    public ActivityDto createActivity(SaveActivityDto activityDto) {
+        log.info("createActivity method was called with activityDto : {}", activityDto);
 
-        return activityRepository.findAll().stream()
-                .map(ModelConverter::toActivityDto)
-                .toList();
+        var activity = new Activity();
+        activity.setName(activityDto.getName());
+        activity.setDescription(activityDto.getDescription());
+        activity.setStatus(ActivityStatus.PLANNED);
+        activity.setStartDate(activityDto.getStartDate());
+        activity.setEndDate(activityDto.getEndDate());
+
+        return ModelConverter.toActivityDto(activityRepository.save(activity));
     }
 
     @Override

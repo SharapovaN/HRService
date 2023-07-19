@@ -4,7 +4,6 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ru.otus.hrapp.model.enumeration.EmployeeStatus;
 
 import java.time.LocalDate;
 
@@ -12,7 +11,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SaveEmployeeDto {
-    private Long id;
 
     @NotNull(message = "Name cannot be null")
     private String name;
@@ -29,9 +27,6 @@ public class SaveEmployeeDto {
     @Past(message = "The birthday must be in the past.")
     @NotNull(message = "Birthday cannot be null")
     private LocalDate birthday;
-
-    @NotNull(message = "Status cannot be null")
-    private EmployeeStatus status = EmployeeStatus.PENDING;
 
     @FutureOrPresent(message = "The hire date must be in the future or now.")
     @NotNull(message = "Hire date cannot be null")
@@ -58,8 +53,8 @@ public class SaveEmployeeDto {
     @Future(message = "The contract end date must be in the future or now.")
     private LocalDate contractEndDate;
 
-    @NotNull(message = "Username cannot be null")
-    private String username;
+/*    @NotNull(message = "Username cannot be null")
+    private String username;*/
 
     //private RoleType role;
 }

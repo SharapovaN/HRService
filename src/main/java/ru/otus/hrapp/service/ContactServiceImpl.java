@@ -1,11 +1,11 @@
 package ru.otus.hrapp.service;
 
 
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.otus.hrapp.model.dto.ContactDto;
+import ru.otus.hrapp.model.dto.SaveContactDto;
 import ru.otus.hrapp.model.entity.Contact;
 import ru.otus.hrapp.repository.ContactRepository;
 import ru.otus.hrapp.repository.mapper.UpdateMapper;
@@ -34,7 +34,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    public ContactDto createEmployeeContact(ContactDto contactDto) {
+    public ContactDto createEmployeeContact(SaveContactDto contactDto) {
         log.debug("CreateEmployeeContact method was called with contactDto: " + contactDto);
 
         Contact contact = new Contact();
@@ -47,7 +47,6 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
-    @Transactional
     public ContactDto updateContact(ContactDto updateContactDto) {
         log.debug("UpdateContact method was called with ID: " + updateContactDto.getId());
 

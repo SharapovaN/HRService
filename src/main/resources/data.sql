@@ -1,6 +1,7 @@
 INSERT INTO department (name)
-VALUES ('Production'),
-       ('Accounting'),
+VALUES ('PRODUCTION'),
+       ('ACCOUNTING'),
+       ('LEGAL'),
        ('HR');
 
 INSERT INTO location (street_address, postal_code, city, state_province)

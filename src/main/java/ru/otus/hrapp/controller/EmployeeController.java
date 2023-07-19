@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import ru.otus.hrapp.model.dto.EmployeeDto;
 import ru.otus.hrapp.model.dto.SaveEmployeeDto;
+import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
 import ru.otus.hrapp.service.EmployeeService;
 
 import java.util.List;
@@ -48,8 +49,8 @@ public class EmployeeController {
 
     @Operation(summary = "Update employee")
     @PutMapping("/employee")
-    public EmployeeDto updateEmployee(@Parameter(name = "saveEmployeeDto", description = "DTO for updating employee")
-                                      @RequestBody @Valid SaveEmployeeDto saveEmployeeDto) {
-        return employeeService.updateEmployee(saveEmployeeDto);
+    public EmployeeDto updateEmployee(@Parameter(name = "updateEmployeeDto", description = "DTO for updating employee")
+                                      @RequestBody @Valid UpdateEmployeeDto updateEmployeeDto) {
+        return employeeService.updateEmployee(updateEmployeeDto);
     }
 }

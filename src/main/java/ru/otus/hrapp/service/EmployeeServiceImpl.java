@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hrapp.model.dto.EmployeeDto;
 import ru.otus.hrapp.model.dto.SaveEmployeeDto;
+import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
 import ru.otus.hrapp.model.entity.Contract;
 import ru.otus.hrapp.model.entity.Employee;
 import ru.otus.hrapp.model.enumeration.EmployeeStatus;
@@ -16,7 +17,6 @@ import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -77,9 +77,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         log.debug("CreateEmployee method was called with createEmployeeDto: " + saveEmployeeDto);
 
         StringBuilder errorMsgBuilder = new StringBuilder();
-        if (LocalDate.now().isBefore(saveEmployeeDto.getHireDate()) && !saveEmployeeDto.getStatus().equals(EmployeeStatus.PENDING)) {
-            errorMsgBuilder.append("Employee status must be PENDING.");
-        }
+
         if (employeeRepository.findByEmail(saveEmployeeDto.getEmail()).isPresent()) {
             errorMsgBuilder.append("Employee with this email already exists: ").append(saveEmployeeDto.getEmail());
         }
@@ -98,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         Employee employee = new Employee(saveEmployeeDto.getName(), saveEmployeeDto.getSurname(), saveEmployeeDto.getMiddleName(),
-                saveEmployeeDto.getEmail(), saveEmployeeDto.getBirthday(), saveEmployeeDto.getStatus(), saveEmployeeDto.getHireDate());
+                saveEmployeeDto.getEmail(), saveEmployeeDto.getBirthday(), EmployeeStatus.PENDING, saveEmployeeDto.getHireDate());
         employee.setLocation(locationService.getLocationById(saveEmployeeDto.getLocationId()));
         employee.setManager(employeeOptional.get());
         employee.setDepartment(departmentService.getDepartmentById(saveEmployeeDto.getDepartmentId()));
@@ -140,16 +138,16 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public EmployeeDto updateEmployee(SaveEmployeeDto saveEmployeeDto) {
-        log.debug("UpdateEmployee method was called for employee id: " + saveEmployeeDto.getId());
+    public EmployeeDto updateEmployee(UpdateEmployeeDto updateEmployeeDto) {
+        log.debug("UpdateEmployee method was called for employee id: " + updateEmployeeDto.getId());
 
-        Optional<Employee> employeeOptional = employeeRepository.findById(saveEmployeeDto.getId());
+        Optional<Employee> employeeOptional = employeeRepository.findById(updateEmployeeDto.getId());
         if (employeeOptional.isPresent()) {
             Employee employee = employeeOptional.get();
-            updateMapper.updateEmployee(saveEmployeeDto, employee);
+            updateMapper.updateEmployee(updateEmployeeDto, employee);
             return ModelConverter.toExtendedEmployeeDto(employeeRepository.save(employee), null);
         } else {
-            throw new ResourceNotFoundException("No employee is found for the id: " + saveEmployeeDto.getId());
+            throw new ResourceNotFoundException("No employee is found for the id: " + updateEmployeeDto.getId());
         }
     }
 

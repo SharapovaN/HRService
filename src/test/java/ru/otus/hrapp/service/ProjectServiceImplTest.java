@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hrapp.model.dto.CreateEmployeeProjectDto;
 import ru.otus.hrapp.model.dto.ProjectDto;
+import ru.otus.hrapp.model.dto.SaveProjectDto;
 import ru.otus.hrapp.model.entity.EmployeeProject;
 import ru.otus.hrapp.model.entity.EmployeeProjectID;
 import ru.otus.hrapp.model.entity.Project;
@@ -93,7 +94,7 @@ class ProjectServiceImplTest {
                 .willReturn(new Project(1L, "projectType", "description",
                         ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
-        ProjectDto projectDto = projectService.createProject(new ProjectDto(null, "projectType", "description",
+        ProjectDto projectDto = projectService.createProject(new SaveProjectDto("projectType", "description",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
         ProjectDto savedProject = projectService.createProject(projectDto);
@@ -108,8 +109,7 @@ class ProjectServiceImplTest {
     void updateProjectIfNotExists() {
         given(projectRepository.findById(1L)).willReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () ->
-                projectService.updateProject(new ProjectDto(1L, "projectType", "description",
-                        ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)));
+                projectService.updateProject(new ProjectDto(1L)));
     }
 
     @Test

@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hrapp.model.dto.ActivityDto;
 import ru.otus.hrapp.model.dto.CreateEmployeeActivityDto;
+import ru.otus.hrapp.model.dto.SaveActivityDto;
 import ru.otus.hrapp.model.entity.Activity;
 import ru.otus.hrapp.model.entity.EmployeeActivity;
 import ru.otus.hrapp.model.entity.EmployeeActivityID;
@@ -43,7 +44,7 @@ class ActivityServiceImplTest {
                 .willReturn(new Activity(1L, "activity", null,
                         ActivityStatus.PLANNED, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5)));
 
-        var activityDto = new ActivityDto(null, "activity", null,
+        var activityDto = new SaveActivityDto("activity", null,
                 null, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5));
         var createdActivity = activityService.createActivity(activityDto);
         Assertions.assertNotNull(createdActivity);
@@ -104,8 +105,7 @@ class ActivityServiceImplTest {
     void updateActivityIfNotExists() {
         given(activityRepository.findById(1L)).willReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () ->
-                activityService.updateActivity(new ActivityDto(1L, "activity", null,
-                        null, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5))));
+                activityService.updateActivity(new ActivityDto(1L)));
     }
 
     @Test

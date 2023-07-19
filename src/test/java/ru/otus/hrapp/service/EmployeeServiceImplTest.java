@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import ru.otus.hrapp.model.dto.EmployeeDto;
-import ru.otus.hrapp.model.dto.SaveEmployeeDto;
+import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
 import ru.otus.hrapp.model.entity.Contract;
 import ru.otus.hrapp.model.entity.Employee;
 import ru.otus.hrapp.model.enumeration.EmployeeStatus;
@@ -125,7 +125,7 @@ class EmployeeServiceImplTest {
     @Test
     void updateEmployeeIfNotFound() {
         given(employeeRepository.findById(1L)).willReturn(Optional.empty());
-        SaveEmployeeDto dto = getPreparedEmployeeDto();
+        UpdateEmployeeDto dto = getPreparedEmployeeDto();
         dto.setId(1L);
         Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.updateEmployee(dto));
     }
@@ -133,7 +133,7 @@ class EmployeeServiceImplTest {
     @Test
     void updateEmployeeStatus() {
         given(employeeRepository.findById(1L)).willReturn(Optional.empty());
-        SaveEmployeeDto dto = getPreparedEmployeeDto();
+        UpdateEmployeeDto dto = getPreparedEmployeeDto();
         dto.setId(1L);
         Assertions.assertThrows(ResourceNotFoundException.class,
                 () -> employeeService.updateEmployeeStatus(1, EmployeeStatus.ACTIVE));
@@ -161,8 +161,8 @@ class EmployeeServiceImplTest {
         return employee;
     }
 
-    private SaveEmployeeDto getPreparedEmployeeDto() {
-        SaveEmployeeDto saveEmployeeDto = new SaveEmployeeDto();
+    private UpdateEmployeeDto getPreparedEmployeeDto() {
+        UpdateEmployeeDto saveEmployeeDto = new UpdateEmployeeDto();
         saveEmployeeDto.setName("Name");
         saveEmployeeDto.setSurname("Surname");
         saveEmployeeDto.setHireDate(LocalDate.now().plusDays(1));

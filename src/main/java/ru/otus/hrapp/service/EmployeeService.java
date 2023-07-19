@@ -2,6 +2,7 @@ package ru.otus.hrapp.service;
 
 import ru.otus.hrapp.model.dto.EmployeeDto;
 import ru.otus.hrapp.model.dto.SaveEmployeeDto;
+import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
 import ru.otus.hrapp.model.entity.Employee;
 import ru.otus.hrapp.model.enumeration.EmployeeStatus;
 
@@ -17,7 +18,7 @@ public interface EmployeeService {
 
     EmployeeDto createEmployee(SaveEmployeeDto saveEmployeeDto);
 
-    EmployeeDto updateEmployee(SaveEmployeeDto saveEmployeeDto);
+    EmployeeDto updateEmployee(UpdateEmployeeDto updateEmployeeDto);
 
     void updateEmployeeStatus(long employeeId, EmployeeStatus status);
 }

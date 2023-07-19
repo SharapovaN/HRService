@@ -34,9 +34,11 @@ public class ModelConverter {
     public static ContactDto toContactDto(Contact contact) {
         ContactDto contactDto = new ContactDto();
 
+        contactDto.setId(contact.getId());
         contactDto.setAccountName(contact.getAccountName());
         contactDto.setType(contact.getType());
         contactDto.setDescription(contact.getDescription());
+        contactDto.setEmployeeId(contact.getEmployee().getId());
 
         return contactDto;
     }

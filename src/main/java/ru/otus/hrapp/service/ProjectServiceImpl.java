@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import ru.otus.hrapp.model.dto.CreateEmployeeProjectDto;
 import ru.otus.hrapp.model.dto.ProjectDto;
+import ru.otus.hrapp.model.dto.SaveProjectDto;
 import ru.otus.hrapp.model.entity.EmployeeProject;
 import ru.otus.hrapp.model.entity.EmployeeProjectID;
 import ru.otus.hrapp.model.entity.Project;
@@ -54,7 +55,7 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public ProjectDto createProject(ProjectDto projectDto) {
+    public ProjectDto createProject(SaveProjectDto projectDto) {
         log.info("createProject method was called with projectDto : {}", projectDto);
 
         var project = new Project();
