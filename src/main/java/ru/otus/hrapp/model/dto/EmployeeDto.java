@@ -30,5 +30,5 @@ public class EmployeeDto {
     private ContractDto contract;
     private List<ContactDto> contactList;
     private String password;
-    //private String roleName;
+    private String roleName;
 }

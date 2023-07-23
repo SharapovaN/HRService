@@ -60,7 +60,6 @@ public class ProjectServiceImpl implements ProjectService {
 
         var project = new Project();
         project.setProjectType(projectDto.getProjectType());
-        project.setDescription(projectDto.getDescription());
         project.setStatus(projectDto.getStatus());
         project.setStartDate(projectDto.getStartDate());
         project.setEndDate(projectDto.getEndDate());

@@ -29,14 +29,14 @@ public class ContactController {
 
     @Operation(summary = "Create employee's contact")
     @PostMapping("/contact")
-    public ContactDto createEmployeeContact(@Parameter(name = "contactDto", description = "DTO for creating employee's contact")
+    public ContactDto createEmployeeContact(@Parameter(name = "contactDto", description = " DTO for creating employee's contact")
                                             @RequestBody @Valid SaveContactDto contactDto) {
         return contactService.createEmployeeContact(contactDto);
     }
 
     @Operation(summary = "Update employee's contact")
     @PutMapping("/contact")
-    public ContactDto updateContact(@Parameter(name = "contactDto", description = "DTO for updating employee's contact")
+    public ContactDto updateContact(@Parameter(name = "contactDto", description = " DTO for updating employee's contact")
                                     @RequestBody @Valid ContactDto contactDto) {
         return contactService.updateContact(contactDto);
     }

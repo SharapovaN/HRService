@@ -3,10 +3,14 @@ DROP TABLE IF EXISTS location CASCADE;
 DROP TABLE IF EXISTS job CASCADE;
 DROP TABLE IF EXISTS contract CASCADE;
 DROP TABLE IF EXISTS employee CASCADE;
+DROP TABLE IF EXISTS project CASCADE;
 DROP TABLE IF EXISTS employee_project CASCADE;
 DROP TABLE IF EXISTS employee_contact CASCADE;
 DROP TABLE IF EXISTS activity CASCADE;
 DROP TABLE IF EXISTS employee_activity CASCADE;
+DROP TABLE IF EXISTS users CASCADE;
+DROP TABLE IF EXISTS roles CASCADE;
+DROP TABLE IF EXISTS users_roles CASCADE;
 
 -- -----------------------------------------------------
 -- Table department
@@ -139,6 +143,33 @@ CREATE TABLE IF NOT EXISTS employee_activity
     employee_id   BIGINT      NOT NULL REFERENCES employee (id),
     activity_id   BIGINT      NOT NULL REFERENCES activity (id),
     activity_role VARCHAR(50) NOT NULL
+);
+
+-- -----------------------------------------------------
+-- Security tables
+-- -----------------------------------------------------
+
+CREATE TABLE users
+(
+    id          BIGSERIAL,
+    employee_id BIGINT REFERENCES employee (id),
+    username    VARCHAR(50)  NOT NULL,
+    password    VARCHAR(250) NOT NULL,
+    PRIMARY KEY (id),
+    constraint uq1 unique (username)
+);
+
+CREATE TABLE roles
+(
+    id   BIGSERIAL,
+    name VARCHAR(50) NOT NULL,
+    PRIMARY KEY (id)
+);
+
+CREATE TABLE users_roles
+(
+    user_id BIGINT NOT NULL REFERENCES users (id),
+    role_id BIGINT NOT NULL REFERENCES roles (id)
 );
 
 

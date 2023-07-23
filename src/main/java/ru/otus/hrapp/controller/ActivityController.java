@@ -45,14 +45,14 @@ public class ActivityController {
 
     @Operation(summary = "Create activity")
     @PostMapping("/activity")
-    public ActivityDto createActivity(@Parameter(name = "activityDto", description = "DTO for creating activity")
+    public ActivityDto createActivity(@Parameter(name = "activityDto", description = " DTO for creating activity")
                                       @RequestBody @Valid SaveActivityDto activityDto) {
         return activityService.createActivity(activityDto);
     }
 
     @Operation(summary = "Update activity")
     @PutMapping("/activity")
-    public ActivityDto updateActivity(@Parameter(name = "activityDto", description = "DTO for updating activity")
+    public ActivityDto updateActivity(@Parameter(name = "activityDto", description = " DTO for updating activity")
                                       @RequestBody @Valid ActivityDto activityDto) {
         return activityService.updateActivity(activityDto);
     }
@@ -60,7 +60,7 @@ public class ActivityController {
     @Operation(summary = "Create link between activity and employee")
     @PostMapping("/employee_activity")
     public String createEmployeeActivity(@Parameter(name = "createEmployeeActivityDto",
-            description = "DTO for creating link between activity and employee")
+            description = " DTO for creating link between activity and employee")
                                          @RequestBody @Valid CreateEmployeeActivityDto createEmployeeActivityDto) {
         return activityService.createEmployeeActivity(createEmployeeActivityDto);
     }

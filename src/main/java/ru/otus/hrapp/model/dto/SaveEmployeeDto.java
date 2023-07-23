@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ru.otus.hrapp.model.enumeration.RoleType;
 
 import java.time.LocalDate;
 
@@ -35,13 +36,10 @@ public class SaveEmployeeDto {
     @Positive(message = "Manager ID must be positive")
     private Long managerId;
 
-    @Positive(message = "Location ID must be positive")
     private Long locationId;
 
-    @Positive(message = "Department ID must be positive")
     private Long departmentId;
 
-    @Positive(message = "Job ID must be positive")
     private Long jobId;
 
     @Positive(message = "Salary must be positive.")
@@ -53,8 +51,9 @@ public class SaveEmployeeDto {
     @Future(message = "The contract end date must be in the future or now.")
     private LocalDate contractEndDate;
 
-/*    @NotNull(message = "Username cannot be null")
-    private String username;*/
+    @NotNull(message = "Username cannot be null")
+    private String username;
 
-    //private RoleType role;
+    @NotNull(message = "Username cannot be null")
+    private RoleType role;
 }

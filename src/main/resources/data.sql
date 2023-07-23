@@ -23,7 +23,8 @@ INSERT INTO employee ("name", surname, middle_name, email, birthday, status, hir
 VALUES ('Ivan', 'Ivanov', 'Ivanovich', 'ivan.ivanov@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', 2, 1, 1, 1, 1),
        ('Manager', 'Manager', 'Manager', 'manager.manager@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', null, 1, 1,
         1, 1),
-       ('Petr', 'Petrov', 'Petrovich', 'petr.petrov@email.ru', '1990-01-01', 'INACTIVE', '2015-05-05', 2, 1, 1, 1, 1);
+       ('Petr', 'Petrov', 'Petrovich', 'petr.petrov@email.ru', '1990-01-01', 'INACTIVE', '2015-05-05', 2, 1, 1, 1, 1),
+       ('HR', 'HR_Manager', 'HR_Manager', 'HR.HR@email.ru', '1990-01-01', 'ACTIVE', '2015-05-05', null, 1, 1, 1, 1);
 
 INSERT INTO project (project_type, area, status, start_date, end_date, owner_id)
 VALUES ('VERY EXPENSIVE PROJECT', 'FINTECH', 'ACTIVE', '2022-01-01', '2025-01-01', 2);
@@ -34,6 +35,22 @@ VALUES (1, 2, 'OWNER', '2022-01-01', '2025-01-01');
 INSERT INTO employee_contact ("type", account_name, description, employee_id)
 VALUES ('TELEGRAM', 'ivanovIvan', 'telegram', 1),
        ('TELEGRAM', 'managerManager', 'telegram', 2);
+
+INSERT INTO users (employee_id, username, password)
+VALUES (1, 'user1', '$2a$12$oXTC3RHisYdSoRCjCdIJk.gZJyw0XDv8BbYDejp6H7jgFbT3XEvGq'),
+       (2, 'user2', '$2a$12$oXTC3RHisYdSoRCjCdIJk.gZJyw0XDv8BbYDejp6H7jgFbT3XEvGq'),
+       (3, 'user3', '$2a$12$oXTC3RHisYdSoRCjCdIJk.gZJyw0XDv8BbYDejp6H7jgFbT3XEvGq'),
+       (4, 'hr', '$2a$12$oXTC3RHisYdSoRCjCdIJk.gZJyw0XDv8BbYDejp6H7jgFbT3XEvGq');
+
+INSERT INTO roles (name)
+VALUES ('ROLE_USER'),
+       ('ROLE_HR_MANAGER');
+
+INSERT INTO users_roles (user_id, role_id)
+VALUES ('1', '1'),
+       ('2', '1'),
+       ('3', '1'),
+       ('4', '2');
 
 
 

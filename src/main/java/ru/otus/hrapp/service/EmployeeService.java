@@ -1,5 +1,6 @@
 package ru.otus.hrapp.service;
 
+import org.springframework.security.core.Authentication;
 import ru.otus.hrapp.model.dto.EmployeeDto;
 import ru.otus.hrapp.model.dto.SaveEmployeeDto;
 import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
@@ -12,7 +13,7 @@ public interface EmployeeService {
 
     List<EmployeeDto> getAllEmployees(boolean isActiveOnly);
 
-    EmployeeDto getEmployeeDtoById(long id);
+    EmployeeDto getEmployeeDtoById(long id, Authentication authentication);
 
     Employee getEmployeeById(long id);
 

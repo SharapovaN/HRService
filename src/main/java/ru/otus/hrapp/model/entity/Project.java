@@ -18,10 +18,12 @@ public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String projectType;
-    private String description;
+
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
+
     private LocalDate startDate;
     private LocalDate endDate;
     private Long ownerId;

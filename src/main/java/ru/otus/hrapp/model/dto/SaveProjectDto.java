@@ -14,7 +14,6 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class SaveProjectDto {
     private String projectType;
-    private String description;
     private ProjectStatus status;
 
     @FutureOrPresent(message = "The start date must be in the future or now.")

@@ -47,7 +47,7 @@ class ProjectServiceImplTest {
 
     @Test
     void getProjectByEmployeeIdIfOk() {
-        given(projectRepository.findByEmployeeId(1)).willReturn(List.of(new Project(1L, "projectType", "description",
+        given(projectRepository.findByEmployeeId(1)).willReturn(List.of(new Project(1L, "projectType",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)));
 
         List<ProjectDto> employeeProjects = projectService.getProjectByEmployeeId(1);
@@ -68,7 +68,7 @@ class ProjectServiceImplTest {
 
     @Test
     void getProjectByOwnerIdIfOk() {
-        given(projectRepository.findProjectsByOwnerId(1)).willReturn(List.of(new Project(1L, "projectType", "description",
+        given(projectRepository.findProjectsByOwnerId(1)).willReturn(List.of(new Project(1L, "projectType",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)));
 
         List<ProjectDto> ownerProjects = projectService.getProjectByOwnerId(1);
@@ -89,12 +89,12 @@ class ProjectServiceImplTest {
 
     @Test
     void createProject() {
-        given(projectRepository.save(new Project(null, "projectType", "description",
+        given(projectRepository.save(new Project(null, "projectType",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)))
-                .willReturn(new Project(1L, "projectType", "description",
+                .willReturn(new Project(1L, "projectType",
                         ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
-        ProjectDto projectDto = projectService.createProject(new SaveProjectDto("projectType", "description",
+        ProjectDto projectDto = projectService.createProject(new SaveProjectDto("projectType",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
         ProjectDto savedProject = projectService.createProject(projectDto);

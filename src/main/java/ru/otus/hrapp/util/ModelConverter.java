@@ -1,10 +1,7 @@
 package ru.otus.hrapp.util;
 
-import org.springframework.util.CollectionUtils;
 import ru.otus.hrapp.model.dto.*;
 import ru.otus.hrapp.model.entity.*;
-
-import java.util.List;
 
 public class ModelConverter {
 
@@ -80,7 +77,7 @@ public class ModelConverter {
         return employeeDto;
     }
 
-    public static EmployeeDto toExtendedEmployeeDto(Employee employee, List<Contact> contactList) {
+    public static EmployeeDto toExtendedEmployeeDto(Employee employee) {
         EmployeeDto employeeDto = toEmployeeDto(employee);
 
         employeeDto.setBirthday(employee.getBirthday());
@@ -92,12 +89,6 @@ public class ModelConverter {
         if (employee.getManager() != null) {
             employeeDto.setManager(toEmployeeDto(employee.getManager()));
         }
-        if (!CollectionUtils.isEmpty(contactList)) {
-            List<ContactDto> contactDtoList = contactList.stream().map((ModelConverter::toContactDto))
-                    .toList();
-            employeeDto.setContactList(contactDtoList);
-        }
-
         return employeeDto;
     }
 
@@ -106,7 +97,6 @@ public class ModelConverter {
 
         projectDto.setId(project.getId());
         projectDto.setProjectType(project.getProjectType());
-        projectDto.setDescription(project.getDescription());
         projectDto.setStatus(project.getStatus());
         projectDto.setStartDate(project.getStartDate());
         projectDto.setEndDate(project.getEndDate());

@@ -45,14 +45,14 @@ public class ProjectController {
 
     @Operation(summary = "Create project")
     @PostMapping("/project")
-    public ProjectDto createProject(@Parameter(name = "projectDto", description = "DTO for creating project")
+    public ProjectDto createProject(@Parameter(name = "projectDto", description = " DTO for creating project")
                                     @RequestBody @Valid SaveProjectDto projectDto) {
         return projectService.createProject(projectDto);
     }
 
     @Operation(summary = "Update project")
     @PutMapping("/project")
-    public ProjectDto updateProject(@Parameter(name = "projectDto", description = "DTO for updating project")
+    public ProjectDto updateProject(@Parameter(name = "projectDto", description = " DTO for updating project")
                                     @RequestBody @Valid ProjectDto projectDto) {
         return projectService.updateProject(projectDto);
     }
@@ -60,7 +60,7 @@ public class ProjectController {
     @Operation(summary = "Create link between project and employee")
     @PostMapping("/employee_project")
     public String createEmployeeProject(@Parameter(name = "createEmployeeProjectDto",
-            description = "DTO for creating link between project and employee")
+            description = " DTO for creating link between project and employee")
                                         @RequestBody @Valid CreateEmployeeProjectDto createEmployeeProjectDto) {
         return projectService.createEmployeeProject(createEmployeeProjectDto);
     }
