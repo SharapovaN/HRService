@@ -2,6 +2,7 @@ package ru.otus.hrapp.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.otus.hrapp.model.dto.ActivityDto;
 import ru.otus.hrapp.model.dto.CreateEmployeeActivityDto;
@@ -29,6 +30,7 @@ public class ActivityServiceImpl implements ActivityService {
     private final UpdateMapper updateMapper;
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public List<ActivityDto> getAllActivities() {
         log.info("getAllActivities method was called");
 
@@ -38,6 +40,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public ActivityDto getActivityById(long activityId) {
         log.info("getActivityById method was called with activityId : {}", activityId);
 
@@ -46,6 +49,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @PreAuthorize("hasAnyRole('USER', 'HR_MANAGER')")
     public List<ActivityDto> getActivitiesByEmployeeId(long employeeId) {
         log.info("getActivitiesByEmployeeId method was called with employeeId : {}", employeeId);
 
@@ -55,6 +59,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public ActivityDto createActivity(SaveActivityDto activityDto) {
         log.info("createActivity method was called with activityDto : {}", activityDto);
 
@@ -69,6 +74,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public ActivityDto updateActivity(ActivityDto activityDto) {
         log.debug("updateActivity method was called with activityId: " + activityDto.getId());
 
@@ -83,6 +89,7 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public String createEmployeeActivity(CreateEmployeeActivityDto createEmployeeActivityDto) {
         log.debug("createEmployeeActivity method was called with createEmployeeActivityDto: " + createEmployeeActivityDto);
 

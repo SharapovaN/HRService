@@ -3,6 +3,7 @@ package ru.otus.hrapp.service;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import ru.otus.hrapp.model.dto.ContactDto;
 import ru.otus.hrapp.model.dto.SaveContactDto;
@@ -25,6 +26,7 @@ public class ContactServiceImpl implements ContactService {
     private final UpdateMapper updateMapper;
 
     @Override
+    @PreAuthorize("hasAnyRole('USER', 'HR_MANAGER')")
     public List<ContactDto> getEmployeeContactDtoList(long employeeId) {
         log.debug("GetEmployeeContactByEmployeeId method was called with employeeId: " + employeeId);
 
@@ -34,6 +36,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @PreAuthorize("checkCreateEmployeeContactPermissions(#contactDto)")
     public ContactDto createEmployeeContact(SaveContactDto contactDto) {
         log.debug("CreateEmployeeContact method was called with contactDto: " + contactDto);
 
@@ -47,6 +50,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @PreAuthorize("checkCreateEmployeeContactPermissions(#updateContactDto)")
     public ContactDto updateContact(ContactDto updateContactDto) {
         log.debug("UpdateContact method was called with ID: " + updateContactDto.getId());
 
@@ -61,6 +65,7 @@ public class ContactServiceImpl implements ContactService {
     }
 
     @Override
+    @PreAuthorize("hasRole('HR_MANAGER')")
     public void deleteContact(long contactId) {
         Contact contact = new Contact();
         contact.setId(contactId);

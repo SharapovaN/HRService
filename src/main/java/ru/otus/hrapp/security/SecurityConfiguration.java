@@ -28,7 +28,6 @@ public class SecurityConfiguration {
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
