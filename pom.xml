@@ -120,6 +120,8 @@
 				</configuration>
 			</plugin>
 		</plugins>
+
+		<finalName>hr_app</finalName>
 	</build>
 
 </project>
