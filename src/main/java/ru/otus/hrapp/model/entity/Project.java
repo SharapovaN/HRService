@@ -21,6 +21,8 @@ public class Project {
 
     private String projectType;
 
+    private String area;
+
     @Enumerated(EnumType.STRING)
     private ProjectStatus status;
 

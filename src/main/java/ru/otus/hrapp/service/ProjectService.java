@@ -18,4 +18,6 @@ public interface ProjectService {
     ProjectDto updateProject(ProjectDto projectDto);
 
     String createEmployeeProject(CreateEmployeeProjectDto createEmployeeProjectDto);
+
+    boolean isEmployeeProjectOwner(long employeeId, long projectId);
 }

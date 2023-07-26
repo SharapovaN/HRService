@@ -17,4 +17,12 @@ public interface ProjectRepository extends JpaRepository<Project, Long> {
     List<Project> findByEmployeeId(@Param("employeeId") long employeeId);
 
     List<Project> findProjectsByOwnerId(@Param("ownerId") long ownerId);
+
+    @Query(value = """
+            SELECT EXISTS(SELECT * FROM project 
+            WHERE id = :projectId 
+            AND owner_id = :employeeId)
+            """, nativeQuery = true)
+    boolean isEmployeeProjectOwner(@Param("employeeId") long employeeId, @Param("projectId") long projectId);
+
 }

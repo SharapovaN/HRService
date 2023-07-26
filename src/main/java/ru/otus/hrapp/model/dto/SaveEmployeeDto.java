@@ -36,10 +36,13 @@ public class SaveEmployeeDto {
     @Positive(message = "Manager ID must be positive")
     private Long managerId;
 
+    @Positive(message = "Location ID must be positive")
     private Long locationId;
 
+    @Positive(message = "Department ID must be positive")
     private Long departmentId;
 
+    @Positive(message = "Job ID must be positive")
     private Long jobId;
 
     @Positive(message = "Salary must be positive.")

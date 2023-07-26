@@ -36,7 +36,7 @@ public class ActivityController {
     }
 
     @Operation(summary = "Get activity by employee id")
-    @GetMapping("/activity/{employeeId}")
+    @GetMapping("/employee_activity/{employeeId}")
     public List<ActivityDto> getActivitiesByEmployeeId(@PathVariable("employeeId")
                                                        @Parameter(name = "employeeId", description = " Employee unique identifier")
                                                        long employeeId) {

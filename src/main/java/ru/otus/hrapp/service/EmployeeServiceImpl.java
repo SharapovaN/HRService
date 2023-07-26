@@ -20,7 +20,6 @@ import ru.otus.hrapp.model.enumeration.EmployeeStatus;
 import ru.otus.hrapp.repository.EmployeeRepository;
 import ru.otus.hrapp.repository.RoleRepository;
 import ru.otus.hrapp.repository.UserRepository;
-import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.security.UserDetailsImpl;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
@@ -42,7 +41,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final LocationService locationService;
     private final DepartmentService departmentService;
     private final JobService jobService;
-    private final UpdateMapper updateMapper;
     private final RoleRepository roleRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -155,7 +153,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         Optional<Employee> employeeOptional = employeeRepository.findById(updateEmployeeDto.getId());
         if (employeeOptional.isPresent()) {
             Employee employee = employeeOptional.get();
-            updateMapper.updateEmployee(updateEmployeeDto, employee);
+            setEmployeeFields(employee, updateEmployeeDto);
             return ModelConverter.toExtendedEmployeeDto(employeeRepository.save(employee));
         } else {
             throw new ResourceNotFoundException("No employee is found for the id: " + updateEmployeeDto.getId());
@@ -173,5 +171,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             throw new ResourceNotFoundException("No employee is found for the id: " + employeeId);
         }
+    }
+
+    private void setEmployeeFields(Employee employee, UpdateEmployeeDto updateEmployeeDto) {
+        employee.setSurname(updateEmployeeDto.getSurname());
+        employee.setBirthday(updateEmployeeDto.getBirthday());
+        employee.setStatus(updateEmployeeDto.getStatus());
+        employee.setEmail(updateEmployeeDto.getEmail());
+        employee.setJob(jobService.getJobById(updateEmployeeDto.getJobId()));
+        employee.setDepartment(departmentService.getDepartmentById(updateEmployeeDto.getDepartmentId()));
+        employee.setLocation(locationService.getLocationById(updateEmployeeDto.getLocationId()));
+        employee.setManager(getEmployeeById(updateEmployeeDto.getManagerId()));
     }
 }

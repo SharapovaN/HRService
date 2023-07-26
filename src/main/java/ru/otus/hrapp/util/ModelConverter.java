@@ -97,6 +97,7 @@ public class ModelConverter {
 
         projectDto.setId(project.getId());
         projectDto.setProjectType(project.getProjectType());
+        projectDto.setArea(project.getArea());
         projectDto.setStatus(project.getStatus());
         projectDto.setStartDate(project.getStartDate());
         projectDto.setEndDate(project.getEndDate());

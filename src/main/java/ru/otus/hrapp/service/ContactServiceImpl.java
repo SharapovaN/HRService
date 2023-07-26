@@ -9,7 +9,6 @@ import ru.otus.hrapp.model.dto.ContactDto;
 import ru.otus.hrapp.model.dto.SaveContactDto;
 import ru.otus.hrapp.model.entity.Contact;
 import ru.otus.hrapp.repository.ContactRepository;
-import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
@@ -23,7 +22,6 @@ public class ContactServiceImpl implements ContactService {
 
     private final ContactRepository contactRepository;
     private final EmployeeService employeeService;
-    private final UpdateMapper updateMapper;
 
     @Override
     @PreAuthorize("hasAnyRole('USER', 'HR_MANAGER')")
@@ -57,7 +55,7 @@ public class ContactServiceImpl implements ContactService {
         Optional<Contact> contactOptional = contactRepository.findById(updateContactDto.getId());
         if (contactOptional.isPresent()) {
             Contact contact = contactOptional.get();
-            updateMapper.updateContact(updateContactDto, contact);
+            setContactFields(contact, updateContactDto);
             return ModelConverter.toContactDto(contactRepository.save(contact));
         } else {
             throw new ResourceNotFoundException("No contact is found for the id: " + updateContactDto.getId());
@@ -70,5 +68,12 @@ public class ContactServiceImpl implements ContactService {
         Contact contact = new Contact();
         contact.setId(contactId);
         contactRepository.delete(contact);
+    }
+
+    private void setContactFields(Contact contact, ContactDto updateContactDto) {
+        contact.setAccountName(updateContactDto.getAccountName());
+        contact.setDescription(updateContactDto.getDescription());
+        contact.setEmployee(employeeService.getEmployeeById(updateContactDto.getEmployeeId()));
+        contact.setType(updateContactDto.getType());
     }
 }

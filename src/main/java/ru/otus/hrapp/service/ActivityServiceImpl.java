@@ -13,7 +13,6 @@ import ru.otus.hrapp.model.entity.EmployeeActivityID;
 import ru.otus.hrapp.model.enumeration.ActivityStatus;
 import ru.otus.hrapp.repository.ActivityRepository;
 import ru.otus.hrapp.repository.EmployeeActivityRepository;
-import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
@@ -27,7 +26,6 @@ public class ActivityServiceImpl implements ActivityService {
 
     private final ActivityRepository activityRepository;
     private final EmployeeActivityRepository employeeActivityRepository;
-    private final UpdateMapper updateMapper;
 
     @Override
     @PreAuthorize("hasRole('HR_MANAGER')")
@@ -81,7 +79,7 @@ public class ActivityServiceImpl implements ActivityService {
         Optional<Activity> activityOptional = activityRepository.findById(activityDto.getId());
         if (activityOptional.isPresent()) {
             Activity activity = activityOptional.get();
-            updateMapper.updateActivity(activityDto, activity);
+            setActivityFields(activity, activityDto);
             return ModelConverter.toActivityDto(activityRepository.save(activity));
         } else {
             throw new ResourceNotFoundException("No activity is found for the id: " + activityDto.getId());
@@ -101,5 +99,13 @@ public class ActivityServiceImpl implements ActivityService {
         employeeActivityRepository.save(employeeActivity);
 
         return "EmployeeActivity successfully created";
+    }
+
+    private void setActivityFields(Activity activity, ActivityDto activityDto) {
+        activity.setName(activityDto.getName());
+        activity.setDescription(activityDto.getDescription());
+        activity.setStatus(activityDto.getStatus());
+        activity.setStartDate(activityDto.getStartDate());
+        activity.setEndDate(activityDto.getEndDate());
     }
 }

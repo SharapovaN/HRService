@@ -11,7 +11,6 @@ import ru.otus.hrapp.model.entity.EmployeeProjectID;
 import ru.otus.hrapp.model.entity.Project;
 import ru.otus.hrapp.repository.EmployeeProjectRepository;
 import ru.otus.hrapp.repository.ProjectRepository;
-import ru.otus.hrapp.repository.mapper.UpdateMapper;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 import ru.otus.hrapp.util.ModelConverter;
 
@@ -25,7 +24,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
     private final EmployeeProjectRepository employeeProjectRepository;
-    private final UpdateMapper updateMapper;
 
     @Override
     public List<ProjectDto> getAllProjects() {
@@ -75,7 +73,7 @@ public class ProjectServiceImpl implements ProjectService {
         Optional<Project> projectOptional = projectRepository.findById(projectDto.getId());
         if (projectOptional.isPresent()) {
             Project project = projectOptional.get();
-            updateMapper.updateProject(projectDto, project);
+            setProjectFields(project, projectDto);
             return ModelConverter.toProjectDto(projectRepository.save(project));
         } else {
             throw new ResourceNotFoundException("No project is found for the id: " + projectDto.getId());
@@ -96,5 +94,19 @@ public class ProjectServiceImpl implements ProjectService {
         employeeProjectRepository.save(employeeProject);
 
         return "EmployeeProject successfully created";
+    }
+
+    @Override
+    public boolean isEmployeeProjectOwner(long employeeId, long projectId) {
+        return projectRepository.isEmployeeProjectOwner(employeeId, projectId);
+    }
+
+    private void setProjectFields(Project project, ProjectDto projectDto) {
+        project.setProjectType(projectDto.getProjectType());
+        project.setArea(projectDto.getArea());
+        project.setStatus(projectDto.getStatus());
+        project.setStartDate(projectDto.getStartDate());
+        project.setEndDate(projectDto.getEndDate());
+        project.setOwnerId(projectDto.getOwnerId());
     }
 }
