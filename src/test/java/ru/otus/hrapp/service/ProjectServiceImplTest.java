@@ -45,18 +45,19 @@ class ProjectServiceImplTest {
         Assertions.assertEquals(2, projects.size());
     }
 
-   /* @Test
+    @Test
     void getProjectByEmployeeIdIfOk() {
-        given(projectRepository.findByEmployeeId(1)).willReturn(List.of(new Project(1L, "projectType",
+        given(projectRepository.findByEmployeeId(1)).willReturn(List.of(new Project(1L, "projectType", "area",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)));
 
         List<ProjectDto> employeeProjects = projectService.getProjectByEmployeeId(1);
         Assertions.assertEquals(1, employeeProjects.size());
         Assertions.assertEquals(1, employeeProjects.get(0).getId());
         Assertions.assertEquals("projectType", employeeProjects.get(0).getProjectType());
+        Assertions.assertEquals("area", employeeProjects.get(0).getArea());
         Assertions.assertEquals(ProjectStatus.ACTIVE, employeeProjects.get(0).getStatus());
         Assertions.assertEquals(1, employeeProjects.get(0).getOwnerId());
-    }*/
+    }
 
     @Test
     void getProjectByEmployeeIdIfNotOk() {
@@ -66,15 +67,16 @@ class ProjectServiceImplTest {
         Assertions.assertTrue(employeeProjects.isEmpty());
     }
 
-    /*@Test
+    @Test
     void getProjectByOwnerIdIfOk() {
-        given(projectRepository.findProjectsByOwnerId(1)).willReturn(List.of(new Project(1L, "projectType",
+        given(projectRepository.findProjectsByOwnerId(1)).willReturn(List.of(new Project(1L, "projectType", "area",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)));
 
         List<ProjectDto> ownerProjects = projectService.getProjectByOwnerId(1);
         Assertions.assertEquals(1, ownerProjects.size());
         Assertions.assertEquals(1, ownerProjects.get(0).getId());
         Assertions.assertEquals("projectType", ownerProjects.get(0).getProjectType());
+        Assertions.assertEquals("area", ownerProjects.get(0).getArea());
         Assertions.assertEquals(ProjectStatus.ACTIVE, ownerProjects.get(0).getStatus());
         Assertions.assertEquals(1, ownerProjects.get(0).getOwnerId());
     }
@@ -89,12 +91,12 @@ class ProjectServiceImplTest {
 
     @Test
     void createProject() {
-        given(projectRepository.save(new Project(null, "projectType",
+        given(projectRepository.save(new Project(null, "projectType", "area",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L)))
-                .willReturn(new Project(1L, "projectType",
+                .willReturn(new Project(1L, "projectType", "area",
                         ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
-        ProjectDto projectDto = projectService.createProject(new SaveProjectDto("projectType",
+        ProjectDto projectDto = projectService.createProject(new SaveProjectDto("projectType", "area",
                 ProjectStatus.ACTIVE, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5), 1L));
 
         ProjectDto savedProject = projectService.createProject(projectDto);
@@ -121,5 +123,5 @@ class ProjectServiceImplTest {
         String response = projectService.createEmployeeProject(new CreateEmployeeProjectDto(1L, 1L,
                 EmployeeProjectRole.MANAGER, LocalDate.now().plusDays(1), LocalDate.now().plusDays(5)));
         Assertions.assertEquals("EmployeeProject successfully created", response);
-    }*/
+    }
 }

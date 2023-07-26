@@ -11,6 +11,7 @@ import ru.otus.hrapp.model.dto.UpdateEmployeeDto;
 import ru.otus.hrapp.model.entity.Contract;
 import ru.otus.hrapp.model.entity.Employee;
 import ru.otus.hrapp.model.enumeration.EmployeeStatus;
+import ru.otus.hrapp.model.enumeration.RoleType;
 import ru.otus.hrapp.repository.EmployeeRepository;
 import ru.otus.hrapp.service.exception.ResourceNotFoundException;
 
@@ -28,18 +29,6 @@ class EmployeeServiceImplTest {
 
     @Mock
     EmployeeRepository employeeRepository;
-
-    @Mock
-    JobServiceImpl jobService;
-
-    @Mock
-    DepartmentServiceImpl departmentService;
-
-    @Mock
-    LocationServiceImpl locationService;
-
-    @Mock
-    ContractServiceImpl contractService;
 
     @Test
     void getAllActiveEmployees() {
@@ -61,25 +50,6 @@ class EmployeeServiceImplTest {
         Assertions.assertEquals("Name", employeeDtos.get(0).getName());
     }
 
-   /* @Test
-    void getEmployeeDtoByIdIfOk() {
-        given(employeeRepository.findById(1L)).willReturn(Optional.of(getPreparedEmployee()));
-
-        EmployeeDto employeeDto = employeeService.getEmployeeDtoById(1);
-        Assertions.assertNotNull(employeeDto);
-        Assertions.assertEquals(1, employeeDto.getId());
-        Assertions.assertEquals("Name", employeeDto.getName());
-        Assertions.assertEquals("Surname", employeeDto.getSurname());
-        Assertions.assertEquals(EmployeeStatus.PENDING, employeeDto.getStatus());
-        Assertions.assertEquals("email@email", employeeDto.getEmail());
-    }
-
-    @Test
-    void getEmployeeDtoByIdIfNotOk() {
-        given(employeeRepository.findById(1L)).willReturn(Optional.empty());
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeDtoById(1));
-    }*/
-
     @Test
     void getEmployeeByIdIfOk() {
         given(employeeRepository.findById(1L)).willReturn(Optional.of(getPreparedEmployee()));
@@ -97,29 +67,6 @@ class EmployeeServiceImplTest {
     void getEmployeeByIdIfNotOk() {
         given(employeeRepository.findById(1L)).willReturn(Optional.empty());
         Assertions.assertThrows(ResourceNotFoundException.class, () -> employeeService.getEmployeeById(1));
-    }
-
-    @Test
-    void createEmployee() {
-        given(employeeRepository.findByEmail("email@email")).willReturn(Optional.empty());
-        given(employeeRepository.findById(1L)).willReturn(Optional.of(getEmployeeManager()));
-        given(locationService.getLocationById(1)).willReturn(null);
-        given(departmentService.getDepartmentById(1)).willReturn(null);
-        given(jobService.getJobById(1)).willReturn(null);
-        given(contractService.save(new Contract(null, 1000000, LocalDate.now().plusDays(1),
-                null, null, null))).willReturn(null);
-        Employee employee = getPreparedEmployee();
-        employee.setId(null);
-        given(employeeRepository.save(employee)).willReturn(getPreparedEmployee());
-
-        EmployeeDto employeeDto = employeeService.createEmployee(getPreparedEmployeeDto());
-
-        Assertions.assertNotNull(employeeDto);
-        Assertions.assertEquals(1, employeeDto.getId());
-        Assertions.assertEquals("Name", employeeDto.getName());
-        Assertions.assertEquals("Surname", employeeDto.getSurname());
-        Assertions.assertEquals(EmployeeStatus.PENDING, employeeDto.getStatus());
-        Assertions.assertEquals("email@email", employeeDto.getEmail());
     }
 
     @Test
@@ -173,6 +120,7 @@ class EmployeeServiceImplTest {
         saveEmployeeDto.setDepartmentId(1L);
         saveEmployeeDto.setJobId(1L);
         saveEmployeeDto.setSalary(1000000);
+        saveEmployeeDto.setRole(RoleType.ROLE_USER);
 
         return saveEmployeeDto;
     }
